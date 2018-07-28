@@ -233,8 +233,6 @@ godot_variant sercomm_read(godot_object *p_instance, void *p_method_data, void *
 
 	char c;
 
-	uint32_t chango;
-
 	r = ser_read(ser, &c, sizeof(c), NULL);
 	if (r == SER_EEMPTY)
 	{
@@ -256,10 +254,14 @@ godot_variant sercomm_read(godot_object *p_instance, void *p_method_data, void *
 		goto failed_read;
 	}
 	else
-	{
-		chango = c; // godot needs integer instead of char for at least windows (workaround)
+	{	
 		api->godot_string_new(&data);
-		api->godot_string_parse_utf8(&data, &(char)chango);
+		#if defined(_MSC_VER)
+			uint32_t chango = c;	// godot needs integer instead of char for at least windows (workaround)
+			api->godot_string_parse_utf8(&data, &(char)chango);
+		#else
+			api->godot_string_parse_utf8(&data, &c);
+		#endif
 		api->godot_variant_new_string(&ret, &data);
 		api->godot_string_destroy(&data);
 		return ret;

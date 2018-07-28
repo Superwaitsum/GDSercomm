@@ -3,25 +3,38 @@ GDNative Serial port communication
 
 **Dependencies:**
 
-- libsercomm: https://github.com/ingeniamc/sercomm
-- godot-headers: https://github.com/GodotNativeTools/godot_headers
+- `libsercomm`: https://github.com/ingeniamc/sercomm
+- `godot-headers`: https://github.com/GodotNativeTools/godot_headers
 
 **Contents:**
 
 Available functions:
 
-- open(*port,baudrate,timeout,bytesz,parity, stop_byte*)
+- `open(*port,baudrate,timeout,bytesz,parity, stop_byte*)`
 
-- (**string**) read()
+- `(**string**) read()`
 
-- write(*string*)
+- `write(*string*)`
 
-- get_available()
+- `get_available()`
 
-- flush(queue)
+- `flush(queue)`
 
-- list_ports()
+- `list_ports()`
 
-- close()
+- `close()`
 
-You can get extra info using *get_documentation(function_name)* if you have a godot editor with *nativescript1.1* support.
+You can get extra info of a function using `get_documentation(function_name)` if you have a godot editor with *nativescript1.1* support.
+
+**Building with scons:**
+
+You first need to add the dependencies to the main folder.
+By default it will require a folder named "godot_headers" and a folder named "sercomm"
+Add a compiled sercomm shared library (.dll , .so, .dylib) to the "lib" folder
+Use the following command:
+
+```sh
+scons p=platform
+```
+
+Note: At the moment on linux you need to copy the libsercomm.so to /usr/lib/ and run `ldconfig`

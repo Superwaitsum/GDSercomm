@@ -102,7 +102,7 @@ void GDN_EXPORT godot_nativescript_init(void *p_handle) {
 		api->godot_string_parse_utf8(&test, "Returns number of available bytes for reading. Returns negative integer at fail.");
 		nativescript_api_1_1->godot_nativescript_set_method_documentation(p_handle, "SERCOMM", "get_available", test);
 
-		api->godot_string_parse_utf8(&test, "Secure read of a char in the input buffer, if fails, it will return a negative integer instead of a string.");
+		api->godot_string_parse_utf8(&test, "Secure read of a char in the input buffer, if fails, it will return a negative integer instead of a string. Params: 0 (DEFAULT); 1 (Read raw value)");
 		nativescript_api_1_1->godot_nativescript_set_method_documentation(p_handle, "SERCOMM", "read", test);
 
 		api->godot_string_parse_utf8(&test, "Write an ASCII string to the output buffer, returns 0 in success, negative integer otherwise.");
@@ -233,6 +233,8 @@ godot_variant sercomm_read(godot_object *p_instance, void *p_method_data, void *
 
 	char c;
 
+	int32_t	raw= (int32_t)api->godot_variant_as_int(p_args[0]);
+
 	r = ser_read(ser, &c, sizeof(c), NULL);
 	if (r == SER_EEMPTY)
 	{
@@ -255,6 +257,11 @@ godot_variant sercomm_read(godot_object *p_instance, void *p_method_data, void *
 	}
 	else
 	{	
+		if (raw==1){
+			api->godot_variant_new_int(&ret, (int)c);
+			return ret;
+		}
+
 		api->godot_string_new(&data);
 		#if defined(_MSC_VER)
 			uint32_t chango = c;	// godot needs integer instead of char for at least windows (workaround)

@@ -10,11 +10,13 @@ GDNative Serial port communication
 
 Available functions:
 
-- `open(*port,baudrate,timeout,bytesz,parity, stop_byte*)`
+- `open(port,baudrate,timeout,bytesz,parity, stop_byte)`
 
-- `(**string**) read()`
+- `(string) read()`
 
-- `write(*string*)`
+- `(int) read(true)`	(Read raw value)
+
+- `write(string)`
 
 - `get_available()`
 

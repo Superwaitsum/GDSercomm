@@ -231,7 +231,7 @@ godot_variant sercomm_read(godot_object *p_instance, void *p_method_data, void *
 
 	int32_t r = 0;
 
-	char c;
+	unsigned char c;
 
 	int32_t	raw= (int32_t)api->godot_variant_as_int(p_args[0]);
 
@@ -265,7 +265,7 @@ godot_variant sercomm_read(godot_object *p_instance, void *p_method_data, void *
 		api->godot_string_new(&data);
 		#if defined(_MSC_VER)
 			uint32_t chango = c;	// godot needs integer instead of char for at least windows (workaround)
-			api->godot_string_parse_utf8(&data, &(char)chango);
+			api->godot_string_parse_utf8(&data, &(unsigned char)chango);
 		#else
 			api->godot_string_parse_utf8(&data, &c);
 		#endif
@@ -287,7 +287,7 @@ godot_variant sercomm_write(godot_object *p_instance, void *p_method_data, void 
 
 	int32_t r = 0;
 
-	const char* c;
+	const unsigned char* c;
 
 	godot_string cho;
 	godot_char_string cha;
